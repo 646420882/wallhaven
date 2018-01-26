@@ -2,8 +2,9 @@
 import requests
 import re
 import sys
+keyword = "girl"
 class Wallhaven:
-    def __init__(self,keyword):
+    def __init__(self):
         self.index_url = 'https://alpha.wallhaven.cc/search?q='+keyword+'&search_image='
         #self.start_url = 'https://alpha.wallhaven.cc/search?q='+keyword+'&search_image=&page='+str(page)
     def get_html(self,url):
@@ -17,8 +18,8 @@ class Wallhaven:
             sys.exit()
     def get_pages(self):
         html = self.get_html(self.index_url)
-        pattern1 = re.compile('</i>(\d+) Wallpapers found', re.S)
-        pic_num =  int(re.findall(pattern1,html)[0][0])
+        pattern1 = re.compile('class="fa fa-search search"></i>(.*?) Wallpapers found', re.S)
+        pic_num =  re.findall(pattern1,html)
         if pic_num == 0:
             print('未找到相关图片')
             sys.exit()
@@ -31,5 +32,5 @@ class Wallhaven:
     def main(self):
         self.get_pages()
 
-app = Wallhaven('哈是一你打u一打哦')
+app = Wallhaven()
 app.main()
